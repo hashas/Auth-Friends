@@ -1,5 +1,6 @@
 import React from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
+import FriendForm from './FriendForm';
 
 // const FriendsList = props => {
 //     return (
@@ -11,7 +12,14 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 
 class FriendsList extends React.Component {
     state = {
-        friends: []
+        friends: [],
+        friend: [
+            {
+                name: '',
+                age: '',
+                email: ''
+            }
+        ]
     };
 
     componentDidMount() {
@@ -32,6 +40,40 @@ class FriendsList extends React.Component {
             })
     }
 
+    addFriend = friend => {
+        axiosWithAuth()
+            .post('/api/friends', friend) // does 'friend' need JSON operation?
+            .then(res => {
+                console.log(res)
+                this.getData()
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    handleChange = e => {
+        console.log('input change')
+        this.setState({
+            friend: {
+              ...this.state.friend,
+              [e.target.name]: [e.target.value]  
+            }
+        })
+    }
+
+    handleSubmit = e => {
+        e.preventDefault()
+        this.addFriend(this.state.friend)
+        this.setState({
+            friend: {
+                name: '',
+                age: '',
+                email: ''
+            }
+        })
+    }
+
     render() {
         console.log(this.state)
         return (
@@ -46,6 +88,12 @@ class FriendsList extends React.Component {
                         </div>
                     ))}
                 </div>
+                <FriendForm 
+                    // getData={this.props.getData}
+                    handleChange={this.handleChange}
+                    handleSubmit={this.handleSubmit}
+                    friend={this.state.friend}
+                />
             </div>
         )
     }
