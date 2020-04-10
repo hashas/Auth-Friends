@@ -1,6 +1,11 @@
 import React from 'react';
 
 class FriendForm extends React.Component {
+
+    // I opted to put the state from the form input fields
+    // in the parent FriendsList component so I didn't need
+    // to use any state here. So I could have just used a 
+    // functional component instead
     constructor () {
         super()
         this.state = {

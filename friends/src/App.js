@@ -2,7 +2,7 @@ import React from 'react';
 
 // setting up React Router
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-// import Login
+// import Components
 import Login from './components/Login';
 import FriendsList from './components/FriendsList';
 import PrivateRoute from './components/PrivateRoute';
@@ -20,6 +20,9 @@ function App() {
             <Link to="/protected">Protected Page</Link>
           </li>
         </ul>
+
+        {/* Testing Route components without Switch component */}
+
         {/* <Route component={Login} />
         <Route path="/login" component={Login} />
         <PrivateRoute exact path="/protected" component={FriendsList} /> */}

@@ -2,17 +2,11 @@ import React from 'react';
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import FriendForm from './FriendForm';
 
-// const FriendsList = props => {
-//     return (
-//         <div>
-//             <h1>Friends List</h1>
-//         </div>
-//     )
-// }
-
 class FriendsList extends React.Component {
     state = {
+        // this holds the data for the list of friends we get from api
         friends: [],
+        // this holds the data for the form input
         friend: [
             {
                 name: '',
@@ -22,6 +16,9 @@ class FriendsList extends React.Component {
         ]
     };
 
+    // looking at others' code it seems that where a functional component
+    // was used 'sideEffect' was used instead of 'componentDidMouth()' to
+    // get the api data and set it to state
     componentDidMount() {
         this.getData();
     }
@@ -40,9 +37,13 @@ class FriendsList extends React.Component {
             })
     }
 
+    // this function takes the new values in 'friend' which are inputed
+    // in the form, and sends it to 'post', and in .then() it invokes
+    // getData function above to 'get' the updated 'friends' list from
+    // server.
     addFriend = friend => {
         axiosWithAuth()
-            .post('/api/friends', friend) // does 'friend' need JSON operation?
+            .post('/api/friends', friend) // does 'friend' need JSON operation? No.
             .then(res => {
                 console.log(res)
                 this.getData()
@@ -52,9 +53,16 @@ class FriendsList extends React.Component {
             })
     }
 
+    // I included the handleChange function here as I opted
+    // to include the form data state here also instead of 
+    // in the FriendForm component
     handleChange = e => {
         console.log('input change')
         this.setState({
+            // notice spread operator is updating all 3 key:value pairs
+            // in the state 'friend' object by using the varying name="" and
+            // value="" attributes of each <input> field (e.g. name, age, email)
+            // where this handleChange function is used
             friend: {
               ...this.state.friend,
               [e.target.name]: [e.target.value]  
@@ -89,7 +97,9 @@ class FriendsList extends React.Component {
                     ))}
                 </div>
                 <FriendForm 
-                    // getData={this.props.getData}
+                    // getData={this.props.getData} don't need to pass
+                    // this anymore as handleSubmit function no longer
+                    // lives in FriendForm component
                     handleChange={this.handleChange}
                     handleSubmit={this.handleSubmit}
                     friend={this.state.friend}
